@@ -8,20 +8,27 @@ public abstract class Tarjeta {
     public Tarjeta(String nombre, double descuento) {
         this.nombre = nombre;
         this.descuento = descuento;
-        this.credito = (long) 10000F;
+        this.credito = 10000F;
 
     }
 
-    public void cobrar(double monto) {
-    }
+    public void pagar(Pedido unPedido) {
 
-    public double aplicarDescuento(double monto) {
-        double descuento = monto * this.descuento; // 3% de descuento
-        return monto - descuento;
     }
 
     public float verSaldo() {
         return this.credito;
+    }
+
+    public boolean hayDineroDisponible(double monto) {
+        if (this.credito < monto) {
+            throw new RuntimeException("NO HAY PLATA");
+        }
+        return true;
+    }
+
+    public void descontarImporte(double monto) {
+        this.credito -= (float) monto;
     }
 
 }

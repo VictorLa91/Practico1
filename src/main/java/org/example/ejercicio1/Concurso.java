@@ -18,16 +18,19 @@ public class Concurso {
     }
 
     public void InscribirParticipante(Participante unParticipante, LocalDate fechaInscripcion) {
-        if (fechaInscripcion.isBefore(this.fechaCierre)) {
+        if (estaLaIncripcionEnTermino(fechaInscripcion)) {
             if (!estaInscripto(unParticipante)) {
                 this.inscriptos.add(unParticipante);
                 ganaPuntosExtras(unParticipante, fechaInscripcion);
-            } else {
-                System.out.println("El participante ya esta inscripto");
             }
-        } else {
-            System.out.println("La inscripcion al concurso ha finalizado");
         }
+    }
+
+    public boolean estaLaIncripcionEnTermino(LocalDate fechaInscripcion) {
+        if (!fechaInscripcion.isBefore(this.fechaCierre)) {
+            throw new RuntimeException("La inscripcion ha terminado");
+        }
+        return true;
     }
 
     public void ganaPuntosExtras(Participante unParticipante, LocalDate fechaInscripcion) {
@@ -38,7 +41,7 @@ public class Concurso {
 
     public boolean estaInscripto(Participante unParticipante) {
         if (this.inscriptos.contains(unParticipante)) {
-            return true;
+            throw new RuntimeException("Ya esta inscripto");
         }
         return false;
     }

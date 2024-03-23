@@ -8,14 +8,16 @@ public class Visa extends Tarjeta {
     }
 
     @Override
-    public void cobrar(double monto) {
-        double montoConDescuento = super.aplicarDescuento(monto);
-
-        if (super.credito > montoConDescuento) {
-            credito -= montoConDescuento;
-        } else {
-            System.out.println("No posee el crédito suficiente");
+    public void pagar(Pedido unPedido) {
+        double costoAPagar = unPedido.cuantoSalenLosPlatos() +
+                unPedido.aplicarDescuentoBebidas(this.descuento);
+        if (hayDineroDisponible(costoAPagar)) {
+            descontarImporte(costoAPagar);
         }
     }
 
+    @Override
+    public float verSaldo() {
+        return super.verSaldo();
+    }
 }
